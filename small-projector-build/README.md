@@ -1,4 +1,9 @@
 # Small Projector Build
+| Not Building | Actively Building |
+|--------------|-------------------|
+| <img src="https://github.com/JemiloII/SpaceEngineersPrograms/blob/main/small-projector-build/off.png?raw=true" width="256" alt="Not Building"> | <img src="https://github.com/JemiloII/SpaceEngineersPrograms/blob/main/small-projector-build/on.png?raw=true" width="256" alt="Actively Building"> |
+
+
 This is designed to have multiple of these built and running.
 
 Only variable you need to change is the prefix:
@@ -38,5 +43,6 @@ The script simply turns the LCDs on or off.
 
 Credit: https://steamcommunity.com/sharedfiles/filedetails/?id=730877708
 
-![Caution Image](https://github.com/JemiloII/SpaceEngineersPrograms/blob/main/small-projector-build/caution.png?raw=true)
-![Warning Image](https://github.com/JemiloII/SpaceEngineersPrograms/blob/main/small-projector-build/warning.png?raw=true)
+| caution.txt | warning.txt |
+|-------------|-------------|
+| <img src="https://github.com/JemiloII/SpaceEngineersPrograms/blob/main/small-projector-build/caution.png?raw=true" width="256" alt="Caution Image"> | <img src="https://github.com/JemiloII/SpaceEngineersPrograms/blob/main/small-projector-build/warning.png?raw=true" width="256" alt="Warning Image"> |
