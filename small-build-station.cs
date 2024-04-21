@@ -3,7 +3,7 @@ string prefix = "Build 01";
 IMyProjector projector;
 IMyShipConnector connector;
 IMyShipWelder welder;
-IMyButtonPanel buttonPanel;
+IMyTextSurfaceProvider buttonPanel;
 
 public Program()
 {
@@ -26,6 +26,7 @@ public void Main(string argument, UpdateType updateSource)
 
 void UpdateButtonPanelLCDs()
 {
+    // Update each LCD Background based on the corresponding system's status
     UpdateButtonPanelLCD(0, projector.Enabled ? Color.Green : Color.Red, "Projector");
     UpdateButtonPanelLCD(1, welder.Enabled ? Color.Green : Color.Red, "Welder");
     UpdateButtonPanelLCD(2, GetConnectorStatusColor(connector.Status), "Connector");
@@ -33,7 +34,7 @@ void UpdateButtonPanelLCDs()
 
 void UpdateButtonPanelLCD(int buttonIndex, Color color, string text)
 {
-    var surface = buttonPanel.GetSurface(buttonIndex);
+    IMyTextSurface surface = buttonPanel.GetSurface(buttonIndex);
     surface.BackgroundColor = color;
     surface.WriteText(text);
 }
@@ -71,7 +72,7 @@ void CheckWelderStatus()
     UpdateButtonPanelLCD(1, welder.Enabled ? Color.Green : Color.Red, "Welder");
 }
 
-void Initialize()
+void Initialize() 
 {
     string output = "";
 
@@ -87,7 +88,7 @@ void Initialize()
     if (welder == null) output += "ERROR: Welder block '" + prefix + " Welder' not found!\n";
     else output += "Welder initialized: " + welder.CustomName + "\n";
 
-    buttonPanel = GridTerminalSystem.GetBlockWithName(prefix + " Panel Buttons") as IMyButtonPanel;
+    buttonPanel = GridTerminalSystem.GetBlockWithName(prefix + " Panel Buttons") as IMyTextSurfaceProvider;
     if (buttonPanel == null) output += "ERROR: Button panel block '" + prefix + " Panel Buttons' not found!\n";
     else output += "Button panel block initialized.\n";
 
