@@ -1,7 +1,7 @@
 # Small Projector Build
 | Not Building | Actively Building |
 |--------------|-------------------|
-| <img src="https://github.com/JemiloII/SpaceEngineersPrograms/blob/main/small-projector-build/off.png?raw=true" width="256" alt="Not Building"> | <img src="https://github.com/JemiloII/SpaceEngineersPrograms/blob/main/small-projector-build/on.png?raw=true" width="256" alt="Actively Building"> |
+| <img src="https://github.com/JemiloII/SpaceEngineersPrograms/blob/main/small-projector-build/off.png?raw=true" width="512" alt="Not Building"> | <img src="https://github.com/JemiloII/SpaceEngineersPrograms/blob/main/small-projector-build/on.png?raw=true" width="512" alt="Actively Building"> |
 
 
 This is designed to have multiple of these built and running.
@@ -14,13 +14,15 @@ string prefix = "Build 01"
 
 Everything else in the build requires blocks named the following with the prefix:
 
-1. Projector
-2. Welder
-3. Connector
-4. Button Panel
-5. Caution LCDs*
+1. Build 01 Projector
+2. Build 01 Welder¹
+3. Build 01 Connector
+4. Build 01 Button Panel
+5. \*Build 01 Caution LCDs\*²
 
-* This is a group of lcds around your build area.
+<sup>*1 Just rename any tiered tech blocks*</sup>
+<br>
+<sup>*2 Group of Holo LCDs*</sup>
 
 ## LCD Setup
 The LCD Images were created with SEImage2LCD. I've included references to the images used. 
