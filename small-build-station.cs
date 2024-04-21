@@ -4,6 +4,7 @@ IMyProjector projector;
 IMyShipConnector connector;
 IMyShipWelder welder;
 IMyTextSurfaceProvider buttonPanel;
+List<IMyTextPanel> cautionLCDs = new List<IMyTextPanel>();
 
 public Program()
 {
@@ -22,6 +23,7 @@ public void Main(string argument, UpdateType updateSource)
     CheckProjectorStatus();
     CheckConnectorStatus();
     CheckWelderStatus();
+    UpdateCautionLCDs();
 }
 
 void UpdateButtonPanelLCDs()
@@ -37,6 +39,14 @@ void UpdateButtonPanelLCD(int buttonIndex, Color color, string text)
     IMyTextSurface surface = buttonPanel.GetSurface(buttonIndex);
     surface.BackgroundColor = color;
     surface.WriteText(text);
+}
+
+void UpdateCautionLCDs()
+{
+    foreach (var lcd in cautionLCDs)
+    {
+        lcd.Enabled = welder.Enabled;
+    }
 }
 
 Color GetConnectorStatusColor(MyShipConnectorStatus status)
@@ -91,6 +101,13 @@ void Initialize()
     buttonPanel = GridTerminalSystem.GetBlockWithName(prefix + " Panel Buttons") as IMyTextSurfaceProvider;
     if (buttonPanel == null) output += "ERROR: Button panel block '" + prefix + " Panel Buttons' not found!\n";
     else output += "Button panel block initialized.\n";
+
+    IMyBlockGroup lcdGroup = GridTerminalSystem.GetBlockGroupWithName(prefix + " Caution LCDs");
+    if (lcdGroup == null) output += "ERROR: LCD group '" + prefix + " Caution LCDs' not found!\n";
+    else {
+        lcdGroup.GetBlocksOfType(cautionLCDs);
+        output += "Caution LCD group initialized with " + cautionLCDs.Count + " LCD(s).\n";
+    }
 
     Echo(output);
 }
