@@ -1,4 +1,7 @@
 string prefix = "Build 01";
+List<string> additionalLCDNames = new List<string> {
+    // "Four Button Panel:4" // BlockName:SurfaceIndex (if any)
+};
 
 IMyProjector projector;
 IMyShipConnector connector;
@@ -14,16 +17,64 @@ public Program()
 
 public void Main(string argument, UpdateType updateSource)
 {
-    if (projector == null || connector == null || welder == null || buttonPanel == null) {
-        Echo("Initialization error, please check block names and group names.");
-        return;
-    }
+    string buildPercentage = CalculateBuildPercentage();
+
+    UpdateLCDsMe(buildPercentage);
+    UpdateAdditionalLCDs(buildPercentage);
 
     UpdateButtonPanelLCDs();
     CheckProjectorStatus();
     CheckConnectorStatus();
     CheckWelderStatus();
     UpdateCautionLCDs();
+}
+
+string CalculateBuildPercentage()
+{
+    if (projector != null && projector.IsProjecting)
+    {
+        double percentage = projector.RemainingBlocks * 100.0 / projector.TotalBlocks;
+        return $"Build {percentage:F0}%";
+    }
+    return $"Build 0%";
+}
+
+void UpdateLCDsMe(string text, bool multilines = false)
+{
+    var surface = Me.GetSurface(0);
+    surface.WriteText(text.Replace(" ", "\n"));
+}
+
+void UpdateAdditionalLCDs(string text, bool multilines = false, bool usePrefix = true)
+{
+    string modifiedText = multilines ? text.Replace(" ", "\n") : text; // Declare the variable with type
+    foreach (string lcdName in additionalLCDNames)
+    {
+        var parts = lcdName.Split(':');
+        string blockName = parts[0];
+        int surfaceIndex = parts.Length > 1 ? int.Parse(parts[1]) : 0; // Default to surface 0 if not specified
+        
+        if (usePrefix) {
+            blockName = $"{prefix} {blockName}";
+        }
+
+        IMyTextSurfaceProvider block = GridTerminalSystem.GetBlockWithName(blockName) as IMyTextSurfaceProvider;
+        if (block != null)
+        {
+            IMyTextSurface surface = block.GetSurface(surfaceIndex);
+            surface.WriteText(modifiedText);
+        }
+        else
+        {
+            // If not found with prefix, try without prefix once more
+            if (usePrefix) {
+                UpdateAdditionalLCDs(text, multilines, false);
+            } else {
+                Echo($"ERROR: LCD block '{blockName}' not found!");
+                break; // Avoids multiple error messages for the same block
+            }
+        }
+    }
 }
 
 void UpdateButtonPanelLCDs()
