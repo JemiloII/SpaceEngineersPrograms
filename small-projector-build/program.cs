@@ -1,7 +1,7 @@
 string prefix = "Build 01";
 List<string> additionalLCDNames = new List<string> {
-    // "BlockName:SurfaceIndex"
-    // "Four Button Panel:4" 
+    // BlockName:SurfaceIndex (if any)
+    // "Four Button Panel:4"
 };
 
 IMyProjector projector;
@@ -48,12 +48,12 @@ void UpdateLCDsMe(string text, bool multilines = false)
 
 void UpdateAdditionalLCDs(string text, bool multilines = false, bool usePrefix = true)
 {
-    string modifiedText = multilines ? text.Replace(" ", "\n") : text;
+    string modifiedText = multilines ? text.Replace(" ", "\n") : text; // Declare the variable with type
     foreach (string lcdName in additionalLCDNames)
     {
         var parts = lcdName.Split(':');
         string blockName = parts[0];
-        int surfaceIndex = parts.Length > 1 ? int.Parse(parts[1]) : 0;
+        int surfaceIndex = parts.Length > 1 ? int.Parse(parts[1]) : 0; // Default to surface 0 if not specified
         
         if (usePrefix) {
             blockName = $"{prefix} {blockName}";
@@ -67,11 +67,12 @@ void UpdateAdditionalLCDs(string text, bool multilines = false, bool usePrefix =
         }
         else
         {
+            // If not found with prefix, try without prefix once more
             if (usePrefix) {
                 UpdateAdditionalLCDs(text, multilines, false);
             } else {
                 Echo($"ERROR: LCD block '{blockName}' not found!");
-                break;
+                break; // Avoids multiple error messages for the same block
             }
         }
     }
